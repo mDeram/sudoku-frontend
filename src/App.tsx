@@ -1,6 +1,7 @@
 import './styles/App.css';
 import React, { useState, useEffect } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
+import Sudoku from './components/Sudoku';
 const ENDPOINT = "http://127.0.0.1:4000";
 
 const App: React.FC = () => {
@@ -70,7 +71,7 @@ const App: React.FC = () => {
                 </>
             }
             {createGameId && <p>Share your link to play with a friend: {createGameId}</p>}
-            {gameState === "init" && <p>The game init</p>}
+            {gameState === "init" && <Sudoku />}
         </div>
     );
 }

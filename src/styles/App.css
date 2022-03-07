@@ -1,0 +1,29 @@
+.sudokuGrid {
+    display: grid;
+    width: 24rem;
+    height: 24rem;
+    gap: 0px;
+    grid-template-columns: repeat(9, 2.6rem);
+    grid-template-rows: repeat(9, 2.6rem);
+}
+
+.gridCell {
+    display: inline-block;
+}
+
+.numberPicker {
+    margin-top: 25px;
+    display: grid;
+    width: 26rem;
+    height: 2.6rem;
+    gap: 0px;
+    grid-template-columns: repeat(10, 2.6rem);
+}
+
+.numberPickerCell {
+
+}
+
+.numberPickerCellCurrent {
+    background-color: yellow;
+}
