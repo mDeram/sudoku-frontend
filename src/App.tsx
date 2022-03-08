@@ -71,7 +71,7 @@ const App: React.FC = () => {
                 </>
             }
             {createGameId && <p>Share your link to play with a friend: {createGameId}</p>}
-            {gameState === "init" && <Sudoku />}
+            {gameState === "init" && socket && <Sudoku socket={socket}/>}
         </div>
     );
 }

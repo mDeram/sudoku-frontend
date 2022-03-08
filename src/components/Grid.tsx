@@ -2,18 +2,25 @@ import React from "react";
 import Cell from "../components/Cell";
 
 interface GridProps {
-    data: string[];
+    userData: string[];
+    serverData: string[];
     setData: (pos: number) => void;
 }
 
 const Grid: React.FC<GridProps> = ({
-    data,
+    userData,
+    serverData,
     setData
 }) => {
+    console.log(serverData, userData);
+    function isSetOnServer(pos: number) {
+        return serverData[pos] === userData[pos];
+    }
+
     function drawCells() {
         const result = [];
-        for (let i = 0; i < data.length; i++) {
-            result.push(<Cell key={i} value={data[i]} handleClick={() => setData(i)}/>);
+        for (let i = 0; i < userData.length; i++) {
+            result.push(<Cell key={i} value={userData[i]} isSetOnServer={isSetOnServer(i)} handleClick={() => setData(i)}/>);
         }
         return result;
     }

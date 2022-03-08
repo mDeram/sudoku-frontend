@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import NumberPicker from "../components/NumberPicker";
 import Grid from "../components/Grid";
+import { Socket } from "socket.io-client";
 
 function initData() {
     const newData: string[] = [];
@@ -10,14 +11,30 @@ function initData() {
     return newData;
 }
 
-const Sudoku: React.FC = () => {
-    const [data, setData] = useState<string[]>(initData());
+interface SudokuProps {
+    socket: Socket;
+}
+
+const Sudoku: React.FC<SudokuProps> = ({ socket }) => {
+    const [serverData, setServerData] = useState<string[]>(initData());
+    const [userData, setUserData] = useState<string[]>(initData());
     const [currentPick, setCurrentPick] = useState(" ");
 
-    function handleSetData(pos: number, value: string) {
-        setData(prev => {
+    socket.on("game start", startData => {
+        setServerData(startData);
+        setUserData(startData);
+    });
+
+    socket.on("game update", newData => {
+        setServerData(newData);
+        setUserData(newData);
+    });
+
+    function handleSetUserData(pos: number, value: string) {
+        setUserData(prev => {
             const newState = [...prev]
             newState[pos] = value;
+            socket.emit("game update", newState);
             return newState;
         });
     }
@@ -28,7 +45,7 @@ const Sudoku: React.FC = () => {
 
     return (
         <div>
-            <Grid setData={(pos: number) => handleSetData(pos, currentPick)} data={data}/>
+            <Grid setData={(pos: number) => handleSetUserData(pos, currentPick)} userData={userData} serverData={serverData}/>
             <NumberPicker pickNumber={handlePickNumber} current={currentPick}/>
         </div>
     )
