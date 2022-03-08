@@ -2,7 +2,7 @@ import './styles/App.css';
 import React, { useState, useEffect } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import Sudoku from './components/Sudoku';
-const ENDPOINT = "http://127.0.0.1:4000";
+const ENDPOINT = process.env.NODE_ENV === "production" ? "https://mderam.com/sudoku/socket" : "http://127.0.0.1:5001";
 
 const App: React.FC = () => {
     const [connectionStatus, setConnectionStatus] = useState<"connected" | "disconnected">("disconnected");

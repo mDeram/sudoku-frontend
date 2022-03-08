@@ -16,9 +16,14 @@ interface SudokuProps {
 }
 
 const Sudoku: React.FC<SudokuProps> = ({ socket }) => {
+    const [layout, setLayout] = useState<string[] | null>(null);
     const [serverData, setServerData] = useState<string[]>(initData());
     const [userData, setUserData] = useState<string[]>(initData());
     const [currentPick, setCurrentPick] = useState(" ");
+
+    socket.on("game layout", newLayout => {
+        setLayout(newLayout);
+    });
 
     socket.on("game start", startData => {
         setServerData(startData);
@@ -45,7 +50,7 @@ const Sudoku: React.FC<SudokuProps> = ({ socket }) => {
 
     return (
         <div>
-            <Grid setData={(pos: number) => handleSetUserData(pos, currentPick)} userData={userData} serverData={serverData}/>
+            <Grid setData={(pos: number) => handleSetUserData(pos, currentPick)} layout={layout} userData={userData} serverData={serverData}/>
             <NumberPicker pickNumber={handlePickNumber} current={currentPick}/>
         </div>
     )
