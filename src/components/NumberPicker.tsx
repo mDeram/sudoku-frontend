@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface NumberPickerProps {
     currentSelection: string;
@@ -10,6 +10,24 @@ const NumberPicker: React.FC<NumberPickerProps> = ({
     pickNumber
 }) => {
     const selections = ["1", "2", "3", "4", "5", "6", "7", "8", "9", " "];
+
+    useEffect(() => {
+        function keyboardPicker(e: KeyboardEvent) {
+            if (e.code.slice(0, -1) !== "Digit") return;
+
+            let value = e.code.slice(-1);
+            if (value === "0")
+                value = " ";
+
+            if (selections.includes(value))
+                pickNumber(value)
+        }
+
+        document.addEventListener('keydown', keyboardPicker);
+        return () => {
+            document.removeEventListener("keydown", keyboardPicker);
+        }
+    }, []);
 
     function drawPicker() {
         const result = [];
