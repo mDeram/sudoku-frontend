@@ -25,7 +25,7 @@ const Cell: React.FC<CellProps> = ({
     }
 
     return (
-        <button className={getClassName()} onClick={handleClick}>{value}</button>
+        <div className={getClassName()} onClick={handleClick}><p>{value}</p></div>
     )
 }
 

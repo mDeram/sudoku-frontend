@@ -51,7 +51,7 @@ const Sudoku: React.FC<SudokuProps> = ({ socket }) => {
     return (
         <div>
             <Grid setData={(pos: number) => handleSetUserData(pos, currentPick)} layout={layout} userData={userData} serverData={serverData}/>
-            <NumberPicker pickNumber={handlePickNumber} current={currentPick}/>
+            <NumberPicker pickNumber={handlePickNumber} currentSelection={currentPick}/>
         </div>
     )
 }

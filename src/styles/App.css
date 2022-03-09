@@ -4,8 +4,8 @@
     gap: 0.5rem;
     width: fit-content;
     height: fit-content;
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
 
     padding: 0.5rem;
     background-color: lightgray;
@@ -17,8 +17,17 @@
     height: 2.4rem;
     font-weight: bold;
     animation: show 200ms ease-in-out;
+    background-color: #E9E9ED;
+    border: 1px solid black;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.cell p {
+    margin: 0px;
+}
 
 @keyframes show {
   0% {
@@ -27,17 +36,22 @@
   }
 }
 
-.cell-user {
-    color: grey;
-}
-
 .cell-nonLayout:active {
     transform: scale(0.9);
     transition: transform 0.1s;
 }
 
+.cell-nonLayout:hover {
+    background-color: #D0D0D7;
+    cursor: pointer;
+}
+
 .cell-layout {
     color: purple;
+}
+
+.cell-user {
+    color: grey;
 }
 
 .numberPicker {
