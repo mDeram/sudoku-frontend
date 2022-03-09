@@ -28,6 +28,9 @@ const App: React.FC = () => {
         newSocket.on("game init", () => {
             setGameState("init");
         });
+        newSocket.on("game success", () => {
+            setGameState("success");
+        });
         newSocket.on("error", error => {
             if (error === "game not found") {
                 console.log(error);
@@ -72,7 +75,8 @@ const App: React.FC = () => {
                 </>
             }
             {createGameId && <p>Share your link to play with a friend: {createGameId}</p>}
-            {gameState === "init" && socket && <Sudoku socket={socket}/>}
+            {(gameState === "init" || gameState === "success") && socket && <Sudoku socket={socket}/>}
+            {gameState === "success" && <p>Wow, your so goooood</p>}
         </div>
     );
 }
