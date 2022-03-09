@@ -4,21 +4,23 @@ interface CellProps {
     value: string;
     handleClick: () => void;
     isSetOnServer: boolean;
-    serverCell?: boolean;
+    layoutCell?: boolean;
 }
 
 const Cell: React.FC<CellProps> = ({
     value,
     handleClick,
     isSetOnServer,
-    serverCell = true
+    layoutCell = false
 }) => {
     function getClassName() {
-        let className = "gridCell";
+        let className = "cell";
         if (!isSetOnServer)
-            className = className.concat(" userGridCell");
-        if (serverCell)
-            className = className.concat(" serverGridCell");
+            className = className.concat(" cell-user");
+        if (layoutCell)
+            className = className.concat(" cell-layout");
+        if (!layoutCell)
+            className = className.concat(" cell-nonLayout");
         return className;
     }
 
