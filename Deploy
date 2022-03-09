@@ -11,4 +11,6 @@ fi
 npm run build
 
 # Reload the server
-pm2 reload sudoku-frontend
+#pm2 reload sudoku-frontend
+rm -r sudoku/
+mv build/ sudoku/

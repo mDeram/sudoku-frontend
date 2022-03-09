@@ -2,7 +2,8 @@ import './styles/App.css';
 import React, { useState, useEffect } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import Sudoku from './components/Sudoku';
-const ENDPOINT = process.env.NODE_ENV === "production" ? "https://mderam.com/sudoku/socket" : "http://127.0.0.1:5001";
+const ENDPOINT = process.env.NODE_ENV === "production" ? "https://mderam.com" : "http://127.0.0.1:5001";
+const path = process.env.NODE_ENV === "production" ? "/sudoku/socket" : "/socket.io";
 
 const App: React.FC = () => {
     const [connectionStatus, setConnectionStatus] = useState<"connected" | "disconnected">("disconnected");
@@ -12,7 +13,7 @@ const App: React.FC = () => {
     const [createGameId, setCreateJoinGameId] = useState("");
 
     useEffect(() => {
-        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"] });
+        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path: path });
         setSocket(newSocket);
         newSocket.on("connect", () => {
             setConnectionStatus("connected");
