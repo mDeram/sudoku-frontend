@@ -2,7 +2,8 @@ import './styles/App.css';
 import React, { useState, useEffect } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import Sudoku from './components/Sudoku';
-const ENDPOINT = process.env.NODE_ENV === "production" ? "https://mderam.com" : "http://127.0.0.1:5001";
+const ENDPOINT = process.env.NODE_ENV === "production" ? "https://mderam.com" : "http://localhost:5001";
+const URL = process.env.NODE_ENV === "production" ? "https://mderam.com/sudoku" : "http://localhost:3000";
 const path = process.env.NODE_ENV === "production" ? "/sudoku/socket" : "/socket.io";
 
 const App: React.FC = () => {
@@ -14,10 +15,14 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path: path });
+
         setSocket(newSocket);
         newSocket.on("connect", () => {
             setConnectionStatus("connected");
-            newSocket.emit("create game");
+            const paramValue = new URLSearchParams(window.location.search).get("token");
+            if (paramValue) {
+                newSocket.emit("game join", paramValue);
+            }
         });
         newSocket.on("disconnect", () => {
             setConnectionStatus("disconnected");
@@ -57,6 +62,18 @@ const App: React.FC = () => {
         return socket && connectionStatus === "connected";
     }
 
+    function getShareLink() {
+        return URL + "/sudoku?token=" + createGameId;
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText(getShareLink());
+    }
+
+    function copyCode() {
+        navigator.clipboard.writeText(createGameId);
+    }
+
     return (
         <div>
             <p>You are {connectionStatus}</p>
@@ -74,7 +91,8 @@ const App: React.FC = () => {
                 <button onClick={() => joinGame(joinGameId)}>Join Game</button>
                 </>
             }
-            {createGameId && <p>Share your link to play with a friend: {createGameId}</p>}
+            {createGameId && <p>Share this link to play with some friends: <button onClick={copyLink}>{getShareLink()}</button></p>}
+            {createGameId && <p>Or share the game code: <button onClick={copyCode}>{createGameId}</button></p>}
             {(gameState === "init" || gameState === "success") && socket && <Sudoku socket={socket}/>}
             {gameState === "success" && <p>Wow, your so goooood</p>}
         </div>
