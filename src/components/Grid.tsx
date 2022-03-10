@@ -14,7 +14,6 @@ const Grid: React.FC<GridProps> = ({
     setData,
     layout
 }) => {
-    console.log(serverData, userData);
     function isSetOnServer(pos: number) {
         return serverData[pos] === userData[pos];
     }

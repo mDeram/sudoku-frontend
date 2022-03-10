@@ -21,25 +21,20 @@ const Sudoku: React.FC<SudokuProps> = ({ socket }) => {
     const [userData, setUserData] = useState<string[]>(initData());
     const [currentPick, setCurrentPick] = useState(" ");
 
-    socket.on("game layout", newLayout => {
-        setLayout(newLayout);
-    });
-
-    socket.on("game start", startData => {
-        setServerData(startData);
-        setUserData(startData);
-    });
-
-    socket.on("game update", newData => {
-        setServerData(newData);
-        setUserData(newData);
+    socket.on("gameUpdate", message => {
+        if (message.layout)
+            setLayout(message.layout);
+        if (message.data) {
+            setServerData(message.data);
+            setUserData(message.data);
+        }
     });
 
     function handleSetUserData(pos: number, value: string) {
         setUserData(prev => {
             const newState = [...prev]
             newState[pos] = value;
-            socket.emit("game update", newState);
+            socket.emit("gameUpdate", newState);
             return newState;
         });
     }

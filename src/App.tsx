@@ -9,54 +9,52 @@ const path = process.env.NODE_ENV === "production" ? "/sudoku/socket" : "/socket
 const App: React.FC = () => {
     const [connectionStatus, setConnectionStatus] = useState<"connected" | "disconnected">("disconnected");
     const [socket, setSocket] = useState<Socket | null>(null);
-    const [gameState, setGameState] = useState("");
+    const [gameState, setGameState] = useState<"" | "create" | "init" | "run" | "done">("");
+    const [error, setError] = useState("");
     const [joinGameId, setJoinGameId] = useState("");
     const [createGameId, setCreateJoinGameId] = useState("");
 
     useEffect(() => {
-        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path: path });
-
+        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path });
         setSocket(newSocket);
-        newSocket.on("connect", () => {
+
+        return () => {
+            newSocket.disconnect()
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.on("connect", () => {
             setConnectionStatus("connected");
             const paramValue = new URLSearchParams(window.location.search).get("token");
             if (paramValue) {
-                newSocket.emit("game join", paramValue);
+                joinGame(paramValue);
                 setCreateJoinGameId(paramValue);
             }
         });
-        newSocket.on("disconnect", () => {
-            setConnectionStatus("disconnected");
-        });
-        newSocket.on("game id", id => {
-            setCreateJoinGameId(id);
-        });
-        newSocket.on("game init", () => {
-            setGameState("init");
-        });
-        newSocket.on("game success", () => {
-            setGameState("success");
-        });
-        newSocket.on("error", error => {
-            if (error === "game not found") {
-                console.log(error);
-                setGameState("error");
-            }
-        });
+        socket.on("disconnect", () => setConnectionStatus("disconnected"));
+        socket.on("gameId", setCreateJoinGameId);
+        socket.on("gameState", setGameState);
+        socket.on("error", setError);
+    }, [socket]);
 
-        return () => { newSocket.disconnect() };
-    }, []);
+    useEffect(() => {
+        if (error !== "")
+            setGameState("");
+    }, [error]);
 
     function createGame() {
         if (!socket) return;
 
-        socket.emit("game create");
+        socket.emit("gameFunction", { name: "create" });
     }
 
     function joinGame(id: string) {
         if (!socket) return;
 
-        socket.emit("game join", id);
+        socket.emit("gameFunction", { name: "join", id });
     }
 
     function isConnectionValid() {
@@ -79,7 +77,7 @@ const App: React.FC = () => {
         <div>
             <p>You are {connectionStatus}</p>
             {isConnectionValid() && <button onClick={createGame}>create game</button>}
-            {gameState === "error" && <p>An error occured</p>}
+            {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
             {socket &&
                 <>
                 <input
@@ -94,8 +92,8 @@ const App: React.FC = () => {
             }
             {createGameId && <p>Share this link to play with some friends: <button onClick={copyLink}>{getShareLink()}</button></p>}
             {createGameId && <p>Or share the game code: <button onClick={copyCode}>{createGameId}</button></p>}
-            {(gameState === "init" || gameState === "success") && socket && <Sudoku socket={socket}/>}
-            {gameState === "success" && <p>Wow, your so goooood</p>}
+            {(gameState === "init" || gameState === "run" || gameState === "done") && socket && <Sudoku socket={socket}/>}
+            {gameState === "done" && <p>Wow, your so goooood</p>}
         </div>
     );
 }
