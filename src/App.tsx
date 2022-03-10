@@ -2,9 +2,7 @@ import './styles/App.css';
 import React, { useState, useEffect } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import Sudoku from './components/Sudoku';
-const ENDPOINT = process.env.NODE_ENV === "production" ? "https://mderam.com" : "http://localhost:5001";
-const URL = process.env.NODE_ENV === "production" ? "https://mderam.com/sudoku" : "http://localhost:3000";
-const path = process.env.NODE_ENV === "production" ? "/sudoku/socket" : "/socket.io";
+import { ENDPOINT, URL, PATH } from "./constants";
 
 const App: React.FC = () => {
     const [connectionStatus, setConnectionStatus] = useState<"connected" | "disconnected">("disconnected");
@@ -15,7 +13,7 @@ const App: React.FC = () => {
     const [createGameId, setCreateJoinGameId] = useState("");
 
     useEffect(() => {
-        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path });
+        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path: PATH });
         setSocket(newSocket);
 
         return () => {
@@ -62,7 +60,7 @@ const App: React.FC = () => {
     }
 
     function getShareLink() {
-        return URL + "/sudoku?token=" + createGameId;
+        return URL + "?token=" + createGameId;
     }
 
     function copyLink() {
