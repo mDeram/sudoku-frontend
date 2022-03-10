@@ -22,6 +22,7 @@ const App: React.FC = () => {
             const paramValue = new URLSearchParams(window.location.search).get("token");
             if (paramValue) {
                 newSocket.emit("game join", paramValue);
+                setCreateJoinGameId(paramValue);
             }
         });
         newSocket.on("disconnect", () => {
