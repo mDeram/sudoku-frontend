@@ -1,4 +1,39 @@
+:root {
+    --base-color: 20;
+    --color: hsl(var(--base-color), 64%, 58%);
+    --color-light: hsl(var(--base-color), 64%, 62%);
+    --color-dark: hsl(var(--base-color), 43%, 53%);
+}
+
+body {
+    background-color: var(--color);
+    color: white;
+    font-weight: 500;
+}
+
+.app {
+    margin: auto;
+    max-width: 48rem;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+button {
+    background-color: white;
+    color: var(--color);
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+}
+
+button:active {
+    background-color: #eee;
+}
+
 .sudokuGrid {
+    background-color: var(--color-light);
     margin: auto;
     display: grid;
     gap: 0.5rem;
@@ -8,7 +43,6 @@
     grid-template-rows: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
 
     padding: 0.5rem;
-    background-color: lightgray;
     border-radius: 3px;
 }
 
@@ -23,6 +57,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--color);
 }
 
 .cell p {
@@ -42,12 +77,12 @@
 }
 
 .cell-nonLayout:hover {
-    background-color: #D0D0D7;
+    background-color: var(--color-dark);
     cursor: pointer;
 }
 
 .cell-layout {
-    color: purple;
+    color: black;
 }
 
 .cell-user {
@@ -55,6 +90,7 @@
 }
 
 .numberPicker {
+    background-color: var(--color-light);
     margin: auto;
     margin-top: 25px;
     display: grid;
@@ -64,7 +100,6 @@
     grid-template-columns: repeat(10, 1fr);
 
     padding: 0.5rem;
-    background-color: lightgray;
     border-radius: 3px;
 }
 
@@ -73,6 +108,10 @@
     height: 2.4rem;
 }
 
+.numberPickerCell {
+    color: black;
+}
+
 .numberPickerCellCurrent {
-    background-color: yellow;
+    color: white;
 }

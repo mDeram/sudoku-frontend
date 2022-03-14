@@ -72,7 +72,7 @@ const App: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className="app">
             <p>You are {connectionStatus}</p>
             {isConnectionValid() && <button onClick={createGame}>create game</button>}
             {gameState === "" && error !== "" && <p>An error occured: {error}</p>}

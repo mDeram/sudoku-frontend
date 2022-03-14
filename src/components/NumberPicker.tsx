@@ -33,7 +33,7 @@ const NumberPicker: React.FC<NumberPickerProps> = ({
         const result = [];
         for (let i = 0; i < selections.length; i++) {
             const selection = selections[i];
-            let className = "cell cell-nonLayout";
+            let className = "cell cell-nonLayout numberPickerCell";
             if (selection === currentSelection)
                 className = className.concat(" numberPickerCellCurrent");
 
