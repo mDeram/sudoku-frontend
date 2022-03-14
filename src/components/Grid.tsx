@@ -22,7 +22,7 @@ const Grid: React.FC<GridProps> = ({
         const result = [];
         for (let i = 0; i < userData.length; i++) {
             if (layout && layout[i] !== " ")
-                result.push(<Cell key={i} value={layout[i]} isSetOnServer={true} layoutCell={true} handleClick={() => {}}/>);
+                result.push(<Cell key={i} value={layout[i]} isSetOnServer={true} layoutCell handleClick={() => {}}/>);
             else
                 result.push(<Cell key={i} value={userData[i]} isSetOnServer={isSetOnServer(i)} handleClick={() => setData(i)}/>);
         }

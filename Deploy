@@ -4,13 +4,12 @@
 old_sum=$(cat Deploy.cache)
 new_sum=$(md5sum package-lock.json)
 if [ "$old_sum" != "$new_sum" ]; then
-    npm i
+    npm ci --production=false
     echo -n "$new_sum" > Deploy.cache
 fi
 
 npm run build
 
 # Reload the server
-#pm2 reload sudoku-frontend
 rm -r sudoku/
 mv build/ sudoku/

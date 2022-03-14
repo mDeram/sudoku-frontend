@@ -13,7 +13,7 @@ const App: React.FC = () => {
     const [createGameId, setCreateJoinGameId] = useState("");
 
     useEffect(() => {
-        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path: PATH });
+        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path: PATH, secure: true });
         setSocket(newSocket);
 
         return () => {
