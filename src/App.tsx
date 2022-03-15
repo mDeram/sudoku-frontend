@@ -9,7 +9,6 @@ const App: React.FC = () => {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [gameState, setGameState] = useState<"" | "create" | "init" | "run" | "done">("");
     const [error, setError] = useState("");
-    const [joinGameId, setJoinGameId] = useState("");
     const [createGameId, setCreateJoinGameId] = useState("");
 
     useEffect(() => {
@@ -67,29 +66,17 @@ const App: React.FC = () => {
         navigator.clipboard.writeText(getShareLink());
     }
 
-    function copyCode() {
-        navigator.clipboard.writeText(createGameId);
-    }
-
     return (
         <div className="app">
-            <p>You are {connectionStatus}</p>
-            {isConnectionValid() && <button onClick={createGame}>create game</button>}
-            {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
-            {socket &&
-                <>
-                <input
-                    id="gameId"
-                    name="gameId"
-                    type="text"
-                    value={joinGameId}
-                    onChange={e => setJoinGameId(e.target.value)}
-                />
-                <button onClick={() => joinGame(joinGameId)}>Join Game</button>
-                </>
-            }
-            {createGameId && <p>Share this link to play with some friends: <button onClick={copyLink}>{getShareLink()}</button></p>}
-            {createGameId && <p>Or share the game code: <button onClick={copyCode}>{createGameId}</button></p>}
+            <header>
+                <h1>Mutliplayer Sudoku</h1>
+                <p className={connectionStatus}>{connectionStatus}</p>
+            </header>
+            <section className="options">
+                {isConnectionValid() && <button onClick={createGame}>create game</button>}
+                {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
+                {createGameId && <p>Share this link to invite players: <button onClick={copyLink}>{getShareLink()}</button></p>}
+            </section>
             {(gameState === "init" || gameState === "run" || gameState === "done") && socket && <Sudoku socket={socket}/>}
             {gameState === "done" && <p>Wow, your so goooood</p>}
         </div>
