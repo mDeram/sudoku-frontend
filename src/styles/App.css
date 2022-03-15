@@ -45,7 +45,7 @@ h1 {
 .options {
     margin: auto;
     margin-top: 2rem;
-    margin-bottom: 25px;
+    margin-bottom: 2rem;
     width: calc(5rem + 10.2 * 2.4rem);
 }
 
@@ -94,18 +94,20 @@ button:active {
     background-color: #eee;
 }
 
-.sudokuGrid {
+.sudokuGrid, .numberPicker {
     background-color: var(--color-light);
-    margin: auto;
     display: grid;
-    gap: 0.5rem;
     width: fit-content;
     height: fit-content;
-    grid-template-columns: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
-
+    gap: 0.5rem;
     padding: 0.5rem;
     border-radius: 3px;
+}
+
+.sudokuGrid {
+    margin: auto;
+    grid-template-columns: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
 }
 
 .cell {
@@ -151,22 +153,9 @@ button:active {
 }
 
 .numberPicker {
-    background-color: var(--color-light);
     margin: auto;
     margin-top: 25px;
-    display: grid;
-    gap: 0.5rem;
-    width: fit-content;
-    height: fit-content;
     grid-template-columns: repeat(10, 1fr);
-
-    padding: 0.5rem;
-    border-radius: 3px;
-}
-
-.numberPickerCell {
-    width: 2.4rem;
-    height: 2.4rem;
 }
 
 .numberPickerCell {
@@ -179,6 +168,50 @@ button:active {
 
 @media only screen and (max-width: 768px) {
     .app {
-        max-width: 100%;
+        padding: 0 0.5rem;
+    }
+
+    header {
+        flex-direction: column;
+        border: none;
+    }
+
+    header p {
+        margin: 2px;
+    }
+
+    button {
+        padding: 5px;
+    }
+
+    .options {
+        margin-top: 0px;
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    .options p {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .shareLink input {
+        padding: 5px;
+    }
+
+    .sudokuGrid, .numberPicker {
+        gap: 0.25rem;
+        padding: 0.25rem;
+        width: calc(100vw - 1.5rem);
+        height: calc(100vw - 1.5rem);
+    }
+
+    .numberPicker {
+        height: auto;
+    }
+
+    .cell {
+        width: 7vw;
+        height: 7vw;
     }
 }
