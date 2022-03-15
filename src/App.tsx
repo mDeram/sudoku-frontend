@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import Sudoku from './components/Sudoku';
 import { ENDPOINT, URL, PATH } from "./constants";
+import ShareLink from './components/ShareLink';
 
 const App: React.FC = () => {
     const [connectionStatus, setConnectionStatus] = useState<"connected" | "disconnected">("disconnected");
@@ -62,10 +63,6 @@ const App: React.FC = () => {
         return URL + "?token=" + createGameId;
     }
 
-    function copyLink() {
-        navigator.clipboard.writeText(getShareLink());
-    }
-
     return (
         <div className="app">
             <header>
@@ -73,9 +70,9 @@ const App: React.FC = () => {
                 <p className={connectionStatus}>{connectionStatus}</p>
             </header>
             <section className="options">
-                {isConnectionValid() && <button onClick={createGame}>create game</button>}
+                {isConnectionValid() && <button className="createGame" onClick={createGame}>create game</button>}
                 {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
-                {createGameId && <p>Share this link to invite players: <button onClick={copyLink}>{getShareLink()}</button></p>}
+                {createGameId && <ShareLink link={getShareLink()}/>}
             </section>
             {(gameState === "init" || gameState === "run" || gameState === "done") && socket && <Sudoku socket={socket}/>}
             {gameState === "done" && <p>Wow, your so goooood</p>}
