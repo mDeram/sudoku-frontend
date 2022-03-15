@@ -69,6 +69,15 @@ h1 {
 
 .shareLink button {
     border-radius: 0px 3px 3px 0px;
+    width: 7rem;
+}
+
+.successCopy {
+    color: var(--color-success);
+}
+
+.errorCopy {
+    color: var(--color-error);
 }
 
 button {
