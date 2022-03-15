@@ -176,3 +176,9 @@ button:active {
 .numberPickerCellCurrent {
     color: white;
 }
+
+@media only screen and (max-width: 768px) {
+    .app {
+        max-width: 100%;
+    }
+}
