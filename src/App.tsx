@@ -1,42 +1,39 @@
 import './styles/App.css';
 import React, { useState, useEffect } from "react";
-import socketIOClient, { Socket } from "socket.io-client";
 import Sudoku from './components/Sudoku';
-import { ENDPOINT, URL, PATH } from "./constants";
-import ShareLink from './components/ShareLink';
+import useSocket from './hooks/useSocket';
+import Header from './components/Header';
+import Options from './components/Options';
+
+export type GameState = "" | "create" | "init" | "run" | "done";
 
 const App: React.FC = () => {
+    const socket = useSocket();
     const [connectionStatus, setConnectionStatus] = useState<"connected" | "disconnected">("disconnected");
-    const [socket, setSocket] = useState<Socket | null>(null);
-    const [gameState, setGameState] = useState<"" | "create" | "init" | "run" | "done">("");
+    const [gameState, setGameState] = useState<GameState>("");
     const [error, setError] = useState("");
-    const [createGameId, setCreateJoinGameId] = useState("");
+    const [gameId, setGameId] = useState("");
+
 
     useEffect(() => {
-        const newSocket = socketIOClient(ENDPOINT, { transports: ["websocket"], path: PATH, secure: true });
-        setSocket(newSocket);
-
-        return () => {
-            newSocket.disconnect()
-        };
-    }, []);
-
-    useEffect(() => {
-        if (!socket) return;
+        if (!socket) {
+            setConnectionStatus("disconnected");
+            return;
+        }
 
         socket.on("connect", () => {
             setConnectionStatus("connected");
             const paramValue = new URLSearchParams(window.location.search).get("token");
 
-            if (createGameId) {
-                joinGame(createGameId);
+            if (gameId) {
+                joinGame(gameId);
             } else if (paramValue) {
                 joinGame(paramValue);
-                setCreateJoinGameId(paramValue);
+                setGameId(paramValue);
             }
         });
         socket.on("disconnect", () => setConnectionStatus("disconnected"));
-        socket.on("gameId", setCreateJoinGameId);
+        socket.on("gameId", setGameId);
         socket.on("gameState", setGameState);
         socket.on("error", setError);
     }, [socket]);
@@ -58,27 +55,16 @@ const App: React.FC = () => {
         socket.emit("gameFunction", { name: "join", id });
     }
 
-    function isConnectionValid() {
-        return socket && connectionStatus === "connected";
-    }
-
-    function getShareLink() {
-        return URL + "?token=" + createGameId;
-    }
-
     return (
         <div className="app">
-            <header>
-                <h1>Mutliplayer Sudoku</h1>
-                <p className={connectionStatus}>{connectionStatus}</p>
-            </header>
-            <section className="options">
-                {isConnectionValid() && <button className="createGame" onClick={createGame}>create game</button>}
-                {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
-                {createGameId && <ShareLink link={getShareLink()}/>}
-            </section>
-            {(gameState === "init" || gameState === "run" || gameState === "done") && socket && <Sudoku socket={socket}/>}
-            {gameState === "done" && <p>Wow, your so goooood</p>}
+            <Header connectionStatus={connectionStatus} />
+            <Options
+                gameId={gameId}
+                connectionStatus={connectionStatus}
+                createGame={createGame}
+            />
+            {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
+            {socket && <Sudoku socket={socket} gameState={gameState}/>}
         </div>
     );
 }

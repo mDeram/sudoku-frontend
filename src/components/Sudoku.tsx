@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NumberPicker from "../components/NumberPicker";
 import Grid from "../components/Grid";
 import { Socket } from "socket.io-client";
+import { GameState } from "../App";
 
 function initData() {
     const newData: string[] = [];
@@ -13,22 +14,30 @@ function initData() {
 
 interface SudokuProps {
     socket: Socket;
+    gameState: GameState;
 }
 
-const Sudoku: React.FC<SudokuProps> = ({ socket }) => {
+const Sudoku: React.FC<SudokuProps> = ({ socket, gameState }) => {
     const [layout, setLayout] = useState<string[] | null>(null);
     const [serverData, setServerData] = useState<string[]>(initData());
     const [userData, setUserData] = useState<string[]>(initData());
     const [currentPick, setCurrentPick] = useState(" ");
 
-    socket.on("gameUpdate", message => {
-        if (message.layout)
-            setLayout(message.layout);
-        if (message.data) {
-            setServerData(message.data);
-            setUserData(message.data);
-        }
-    });
+    useEffect(() => {
+        socket.on("gameUpdate", message => {
+            console.log("update");
+            console.log(message);
+            if (message.layout)
+                setLayout(message.layout);
+            if (message.data) {
+                setServerData(message.data);
+                setUserData(message.data);
+            }
+        });
+        return () => {
+            socket.removeListener("gameUpdate")
+        };
+    }, []);
 
     function handleSetUserData(pos: number, value: string) {
         setUserData(prev => {
@@ -43,11 +52,18 @@ const Sudoku: React.FC<SudokuProps> = ({ socket }) => {
         setCurrentPick(pick);
     }
 
+    const validStates: GameState[] = ["init", "run", "done"];
+
+    if (!validStates.includes(gameState)) return null;
+
     return (
+        <>
         <div>
             <Grid setData={(pos: number) => handleSetUserData(pos, currentPick)} layout={layout} userData={userData} serverData={serverData}/>
             <NumberPicker pickNumber={handlePickNumber} currentSelection={currentPick}/>
         </div>
+        {gameState === "done" && <p>Wow, your so goooood</p>}
+        </>
     )
 }
 
