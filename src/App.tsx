@@ -27,7 +27,10 @@ const App: React.FC = () => {
         socket.on("connect", () => {
             setConnectionStatus("connected");
             const paramValue = new URLSearchParams(window.location.search).get("token");
-            if (paramValue) {
+
+            if (createGameId) {
+                joinGame(createGameId);
+            } else if (paramValue) {
                 joinGame(paramValue);
                 setCreateJoinGameId(paramValue);
             }
