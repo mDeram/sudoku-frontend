@@ -17,10 +17,12 @@ const Cell: React.FC<CellProps> = ({
         let className = "cell";
         if (!isSetOnServer)
             className = className.concat(" cell-user");
+
         if (layoutCell)
             className = className.concat(" cell-layout");
-        if (!layoutCell)
+        else
             className = className.concat(" cell-nonLayout");
+
         return className;
     }
 

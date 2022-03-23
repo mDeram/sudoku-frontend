@@ -24,18 +24,19 @@ const Sudoku: React.FC<SudokuProps> = ({ socket, gameState }) => {
     const [currentPick, setCurrentPick] = useState(" ");
 
     useEffect(() => {
-        socket.on("gameUpdate", message => {
-            console.log("update");
-            console.log(message);
+        function listener(message: any) {
             if (message.layout)
                 setLayout(message.layout);
             if (message.data) {
                 setServerData(message.data);
                 setUserData(message.data);
             }
-        });
+        }
+
+        socket.on("gameUpdate", listener);
+
         return () => {
-            socket.removeListener("gameUpdate")
+            socket.off("gameUpdate", listener);
         };
     }, []);
 
