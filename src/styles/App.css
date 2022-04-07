@@ -42,6 +42,14 @@ h1 {
     color: var(--color-error);
 }
 
+.connectionInfo {
+    display: flex;
+}
+
+.playerCount {
+    padding-right: 1rem;
+}
+
 .options {
     margin: auto;
     margin-top: 2rem;

@@ -14,7 +14,7 @@ const App: React.FC = () => {
     const [gameState, setGameState] = useState<GameState>("");
     const [error, setError] = useState("");
     const [gameId, setGameId] = useState("");
-
+    const [playerCount, setPlayerCount] = useState(0);
 
     useEffect(() => {
         if (!socket) {
@@ -27,6 +27,7 @@ const App: React.FC = () => {
         socket.on("gameId", setGameId);
         socket.on("gameState", setGameState);
         socket.on("error", setError);
+        socket.on("playerCount", setPlayerCount);
     }, [socket]);
 
     useEffect(() => {
@@ -62,7 +63,7 @@ const App: React.FC = () => {
 
     return (
         <div className="app">
-            <Header connectionStatus={connectionStatus} />
+            <Header connectionStatus={connectionStatus} playerCount={playerCount} gameState={gameState}/>
             <Options
                 gameId={gameId}
                 connectionStatus={connectionStatus}
