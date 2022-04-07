@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Options from './components/Options';
 
 export type GameState = "" | "create" | "init" | "run" | "done";
+export type ConnectionStatus = "connected" | "disconnected";
 
 const App: React.FC = () => {
     const socket = useSocket();
@@ -21,22 +22,26 @@ const App: React.FC = () => {
             return;
         }
 
-        socket.on("connect", () => {
-            setConnectionStatus("connected");
-            const paramValue = new URLSearchParams(window.location.search).get("token");
-
-            if (gameId) {
-                joinGame(gameId);
-            } else if (paramValue) {
-                joinGame(paramValue);
-                setGameId(paramValue);
-            }
-        });
+        socket.on("connect", () => setConnectionStatus("connected"));
         socket.on("disconnect", () => setConnectionStatus("disconnected"));
         socket.on("gameId", setGameId);
         socket.on("gameState", setGameState);
         socket.on("error", setError);
     }, [socket]);
+
+    useEffect(() => {
+        if (connectionStatus !== "connected") return;
+
+        const paramValue = new URLSearchParams(window.location.search).get("token");
+
+        if (gameId) {
+            joinGame(gameId);
+        } else if (paramValue) {
+            joinGame(paramValue);
+            setGameId(paramValue);
+        }
+
+    }, [connectionStatus]);
 
     useEffect(() => {
         if (error !== "")
