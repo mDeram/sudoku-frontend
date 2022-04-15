@@ -57,8 +57,21 @@ h1 {
     width: calc(5rem + 10.2 * 2.4rem);
 }
 
+.createGameContainer {
+    display: flex;
+}
+
 .createGame {
     width: 100%;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.difficulty {
+    width: 34%;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 1px solid var(--color-light);
 }
 
 .shareLink {

@@ -1,17 +1,42 @@
 import ShareLink from "./ShareLink";
 import { URL } from "../constants";
+import { Socket } from "socket.io-client";
+import { useEffect, useState } from "react";
 
 interface OptionsProps {
     gameId: string;
     connectionStatus: string;
-    createGame: () => void;
+    socket: Socket | undefined;
 }
 
 const Options: React.FC<OptionsProps> = ({
     gameId,
     connectionStatus,
-    createGame
+    socket
 }) => {
+    const difficulties = ["easy", "medium", "hard", "expert"];
+    const [difficulty, setDifficulty] = useState(difficulties[0]);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.on("difficulty", setDifficulty);
+
+        return () => {
+            socket.off("difficulty", setDifficulty)
+        };
+    }, [socket]);
+
+    function createGame() {
+        if (!socket) return;
+
+        socket.emit("gameFunction", { name: "create", difficulty });
+    }
+
+    function nextDifficulty() {
+        const newIndex = (difficulties.indexOf(difficulty) + 1) % difficulties.length;
+        setDifficulty(difficulties[newIndex]);
+    }
 
     function isConnectionValid() {
         return connectionStatus === "connected";
@@ -23,7 +48,12 @@ const Options: React.FC<OptionsProps> = ({
 
     return (
         <section className="options">
-            {isConnectionValid() && <button className="createGame" onClick={createGame}>create game</button>}
+            {isConnectionValid() &&
+                <div className="createGameContainer">
+                    <button className="createGame" onClick={createGame}>create game</button>
+                    <button className="difficulty" onClick={nextDifficulty}>{difficulty}</button>
+                </div>
+            }
             {gameId && <ShareLink link={getShareLink()}/>}
         </section>
     );

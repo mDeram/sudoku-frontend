@@ -49,12 +49,6 @@ const App: React.FC = () => {
             setGameState("");
     }, [error]);
 
-    function createGame() {
-        if (!socket) return;
-
-        socket.emit("gameFunction", { name: "create" });
-    }
-
     function joinGame(id: string) {
         if (!socket) return;
 
@@ -67,7 +61,7 @@ const App: React.FC = () => {
             <Options
                 gameId={gameId}
                 connectionStatus={connectionStatus}
-                createGame={createGame}
+                socket={socket}
             />
             {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
             {socket && <Sudoku socket={socket} gameState={gameState}/>}
