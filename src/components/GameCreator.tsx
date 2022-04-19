@@ -2,40 +2,41 @@ import ShareLink from "./ShareLink";
 import { URL } from "../constants";
 import { Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
+import Setting from "../components/Setting";
 
-interface OptionsProps {
+export type Settings = { difficulty: string, minimumPlayer: number };
+
+interface GameCreatorProps {
     gameId: string;
     connectionStatus: string;
     socket: Socket | undefined;
 }
 
-const Options: React.FC<OptionsProps> = ({
+const GameCreator: React.FC<GameCreatorProps> = ({
     gameId,
     connectionStatus,
     socket
 }) => {
     const difficulties = ["easy", "medium", "hard", "expert"];
-    const [difficulty, setDifficulty] = useState(difficulties[0]);
+    const [settings, setSettings] = useState<Settings>({
+        difficulty: difficulties[0],
+        minimumPlayer: 2
+    });
 
     useEffect(() => {
         if (!socket) return;
 
-        socket.on("difficulty", setDifficulty);
+        socket.on("settings", handleSetSettings);
 
         return () => {
-            socket.off("difficulty", setDifficulty)
+            socket.off("settings", handleSetSettings)
         };
     }, [socket]);
 
     function createGame() {
         if (!socket) return;
 
-        socket.emit("gameFunction", { name: "create", difficulty });
-    }
-
-    function nextDifficulty() {
-        const newIndex = (difficulties.indexOf(difficulty) + 1) % difficulties.length;
-        setDifficulty(difficulties[newIndex]);
+        socket.emit("gameFunction", { name: "create", settings });
     }
 
     function isConnectionValid() {
@@ -46,12 +47,23 @@ const Options: React.FC<OptionsProps> = ({
         return URL + "?token=" + gameId;
     }
 
+    function handleSetSettings(newSettings: Partial<Settings>) {
+        setSettings(prev => ({
+            ...prev,
+            ...newSettings
+        }));
+    }
+
     return (
-        <section className="options">
+        <section className="gameCreator">
             {isConnectionValid() &&
                 <div className="createGameContainer">
                     <button className="createGame" onClick={createGame}>create game</button>
-                    <button className="difficulty" onClick={nextDifficulty}>{difficulty}</button>
+                    <Setting
+                        difficulties={difficulties}
+                        settings={settings}
+                        setSettings={handleSetSettings}
+                    />
                 </div>
             }
             {gameId && <ShareLink link={getShareLink()}/>}
@@ -59,4 +71,4 @@ const Options: React.FC<OptionsProps> = ({
     );
 }
 
-export default Options;
+export default GameCreator;

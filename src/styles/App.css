@@ -34,6 +34,10 @@ h1 {
     margin: 0px;
 }
 
+section {
+    width: calc(5rem + 10.2 * 2.4rem);
+}
+
 .connected {
     color: var(--color-success);
 }
@@ -50,7 +54,7 @@ h1 {
     padding-right: 1rem;
 }
 
-.options {
+.gameCreator {
     margin: auto;
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -67,11 +71,44 @@ h1 {
     border-bottom-right-radius: 0px;
 }
 
-.difficulty {
-    width: 34%;
+.settings {
+    border-left: 1px solid var(--color-light);
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
-    border-left: 1px solid var(--color-light);
+}
+
+.flyout {
+    font-size: 2rem;
+    position: absolute;
+    top: -18px;
+    right: 1px;
+}
+
+.difficulties {
+    display: flex;
+}
+
+.difficulty {
+    flex-grow: 1;
+    border-left: 1px solid #CCCCCC;
+    border-radius: 0px;
+    background-color: #EFEFEF;
+}
+
+.difficulty:first-child {
+    border: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.difficulty:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.difficulties .selected {
+    background-color: var(--color-light);
+    color: white;
 }
 
 .shareLink {
@@ -187,6 +224,45 @@ button:active {
     color: white;
 }
 
+.popupContent {
+    background-color: white;
+    border-radius: 3px;
+    color: #555555;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.popupContent > div {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #EFEFEF;
+}
+
+.playerNumber {
+    display: flex;
+    align-items: center;
+}
+
+.playerNumber p {
+    margin: 0px;
+    text-align: left;
+}
+
+.playerNumberSliderContainer {
+    flex-grow: 1;
+    display: flex;
+    color: #CCCCCC;
+}
+
+.playerNumberSliderContainer > p {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.playerNumberSlider {
+    flex-grow: 1;
+}
+
 @media only screen and (max-width: 768px) {
     .app {
         padding: 0 0.5rem;
@@ -205,15 +281,19 @@ button:active {
         padding: 5px;
     }
 
-    .options {
+    .gameCreator {
         margin-top: 0px;
         margin-bottom: 1rem;
         width: 100%;
     }
 
-    .options p {
+    .gameCreator p {
         margin-top: 10px;
         margin-bottom: 5px;
+    }
+
+    .playerNumber p {
+        margin: 0px;
     }
 
     .shareLink input {

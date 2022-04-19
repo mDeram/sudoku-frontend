@@ -1,0 +1,12 @@
+.popup {
+    position: absolute;
+    width: calc(5rem + 10.2 * 2.4rem);
+    color: white;
+    transform: translateY(3rem);
+}
+
+@media only screen and (max-width: 768px) {
+    .popup {
+        width: calc(100vw - 1rem);
+    }
+}

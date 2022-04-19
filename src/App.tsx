@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Sudoku from './components/Sudoku';
 import useSocket from './hooks/useSocket';
 import Header from './components/Header';
-import Options from './components/Options';
+import GameCreator from './components/GameCreator';
 
 export type GameState = "" | "create" | "init" | "run" | "done";
 export type ConnectionStatus = "connected" | "disconnected";
@@ -58,7 +58,7 @@ const App: React.FC = () => {
     return (
         <div className="app">
             <Header connectionStatus={connectionStatus} playerCount={playerCount} gameState={gameState}/>
-            <Options
+            <GameCreator
                 gameId={gameId}
                 connectionStatus={connectionStatus}
                 socket={socket}
