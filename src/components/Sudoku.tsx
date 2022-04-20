@@ -60,8 +60,14 @@ const Sudoku: React.FC<SudokuProps> = ({ socket, gameState }) => {
     return (
         <>
         <div>
-            <Grid setData={(pos: number) => handleSetUserData(pos, currentPick)} layout={layout} userData={userData} serverData={serverData}/>
-            <NumberPicker pickNumber={handlePickNumber} currentSelection={currentPick}/>
+            <Grid
+                setData={(pos: number) => handleSetUserData(pos, currentPick)}
+                layout={layout}
+                userData={userData}
+                serverData={serverData}
+                gameState={gameState}
+            />
+            {gameState !== "done" && <NumberPicker pickNumber={handlePickNumber} currentSelection={currentPick}/>}
         </div>
         {gameState === "done" && <p>Wow, your so goooood</p>}
         </>

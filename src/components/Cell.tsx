@@ -2,15 +2,15 @@ import React from "react";
 
 interface CellProps {
     value: string;
-    handleClick: () => void;
     isSetOnServer: boolean;
+    handleClick?: () => void;
     layoutCell?: boolean;
 }
 
 const Cell: React.FC<CellProps> = ({
     value,
-    handleClick,
     isSetOnServer,
+    handleClick = () => {},
     layoutCell = false
 }) => {
     function getClassName() {
