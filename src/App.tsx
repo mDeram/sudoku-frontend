@@ -4,6 +4,8 @@ import Sudoku from './components/Sudoku';
 import useSocket from './hooks/useSocket';
 import Header from './components/Header';
 import GameCreator from './components/GameCreator';
+import { SEARCH_PARAM } from './constants';
+import getGameLink from './utils/getGameLink';
 
 export type GameState = "" | "create" | "init" | "run" | "done";
 export type ConnectionStatus = "connected" | "disconnected";
@@ -33,7 +35,7 @@ const App: React.FC = () => {
     useEffect(() => {
         if (connectionStatus !== "connected") return;
 
-        const paramValue = new URLSearchParams(window.location.search).get("token");
+        const paramValue = new URLSearchParams(window.location.search).get(SEARCH_PARAM);
 
         if (gameId) {
             joinGame(gameId);
@@ -48,6 +50,14 @@ const App: React.FC = () => {
         if (error !== "")
             setGameState("");
     }, [error]);
+
+    useEffect(() => {
+        if (gameId === "") return;
+        const url = getGameLink(gameId)
+        if (window.location.href === url.href) return;
+
+        window.history.pushState({}, "", url);
+    }, [gameId]);
 
     function joinGame(id: string) {
         if (!socket) return;

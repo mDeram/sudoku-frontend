@@ -40,6 +40,14 @@ const Sudoku: React.FC<SudokuProps> = ({ socket, gameState }) => {
         };
     }, []);
 
+    useEffect(() => {
+        if (gameState === "init") {
+            setLayout(null);
+            setServerData(initData());
+            setUserData(initData());
+        }
+    }, [gameState]);
+
     function handleSetUserData(pos: number, value: string) {
         setUserData(prev => {
             const newState = [...prev]

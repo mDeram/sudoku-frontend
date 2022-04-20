@@ -1,8 +1,8 @@
 import ShareLink from "./ShareLink";
-import { URL } from "../constants";
 import { Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
 import Setting from "../components/Setting";
+import getGameLink from "../utils/getGameLink";
 
 export type Settings = { difficulty: string, minimumPlayer: number };
 
@@ -43,10 +43,6 @@ const GameCreator: React.FC<GameCreatorProps> = ({
         return connectionStatus === "connected";
     }
 
-    function getShareLink() {
-        return URL + "?token=" + gameId;
-    }
-
     function handleSetSettings(newSettings: Partial<Settings>) {
         setSettings(prev => ({
             ...prev,
@@ -66,7 +62,7 @@ const GameCreator: React.FC<GameCreatorProps> = ({
                     />
                 </div>
             }
-            {gameId && <ShareLink link={getShareLink()}/>}
+            {gameId && <ShareLink link={getGameLink(gameId).href}/>}
         </section>
     );
 }
