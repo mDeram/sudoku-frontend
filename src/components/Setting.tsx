@@ -14,11 +14,16 @@ const Setting: React.FC<SettingsProps> = ({
     settings,
     setSettings
 }) => {
-
     function renderDifficulties() {
         return difficulties.map(difficulty => {
-            const selectedClass = settings.difficulty == difficulty ? " selected" : "";
-            return <button className={"difficulty" + selectedClass} onClick={() => setSettings({ difficulty: difficulty })}>{difficulty}</button>;
+            const selectedClass = settings.difficulty === difficulty ? " selected" : "";
+            return (
+                <button
+                    key={difficulty}
+                    className={"difficulty" + selectedClass}
+                    onClick={() => setSettings({ difficulty: difficulty })}
+                >{difficulty}</button>
+            );
         });
     }
 
