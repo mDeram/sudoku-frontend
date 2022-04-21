@@ -164,6 +164,7 @@ button:active {
 
 .sudokuGrid {
     margin: auto;
+    animation: show 200ms ease-in-out;
     grid-template-columns: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1.6fr 1fr 1fr 1.6fr 1fr 1fr 1fr;
 }
@@ -190,6 +191,23 @@ button:active {
     opacity: .5;
     transform: scale(0);
   }
+}
+
+@keyframes success {
+  50% {
+    transform: scale(0.9);
+  }
+}
+
+.success .cell-nonLayout {
+    background-color: var(--color-success);
+    animation: success 400ms ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.cell-error {
+    background-color: var(--color-error);
+    animation: success 400ms ease-in-out;
 }
 
 .cell-nonLayout:active {

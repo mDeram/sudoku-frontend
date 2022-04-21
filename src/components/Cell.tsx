@@ -1,33 +1,19 @@
+import classNames from "classnames";
 import React from "react";
 
 interface CellProps {
     value: string;
-    isSetOnServer: boolean;
     handleClick?: () => void;
-    layoutCell?: boolean;
+    className: string;
 }
 
 const Cell: React.FC<CellProps> = ({
     value,
-    isSetOnServer,
     handleClick = () => {},
-    layoutCell = false
+    className
 }) => {
-    function getClassName() {
-        let className = "cell";
-        if (!isSetOnServer)
-            className = className.concat(" cell-user");
-
-        if (layoutCell)
-            className = className.concat(" cell-layout");
-        else
-            className = className.concat(" cell-nonLayout");
-
-        return className;
-    }
-
     return (
-        <div className={getClassName()} onClick={handleClick}><p>{value}</p></div>
+        <div className={classNames("cell", className)} onClick={handleClick}><p>{value}</p></div>
     )
 }
 

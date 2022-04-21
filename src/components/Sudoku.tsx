@@ -66,7 +66,6 @@ const Sudoku: React.FC<SudokuProps> = ({ socket, gameState }) => {
     if (!validStates.includes(gameState)) return null;
 
     return (
-        <>
         <div>
             <Grid
                 setData={(pos: number) => handleSetUserData(pos, currentPick)}
@@ -77,8 +76,6 @@ const Sudoku: React.FC<SudokuProps> = ({ socket, gameState }) => {
             />
             {gameState !== "done" && <NumberPicker pickNumber={handlePickNumber} currentSelection={currentPick}/>}
         </div>
-        {gameState === "done" && <p>Wow, your so goooood</p>}
-        </>
     )
 }
 
