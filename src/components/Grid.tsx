@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GameState } from "../App";
 import Cell from "../components/Cell";
 
@@ -19,11 +19,13 @@ const Grid: React.FC<GridProps> = ({
     gameState,
     layout
 }) => {
+    const [errors, setErrors] = useState<Set<number>>(new Set());
+
     function getCompleteMergedDataOrNull(): string[] | null {
         if (!layout) return null;
 
         const mergedData: string[] = [...layout];
-        for (let i = 0; i < userData.length; i++) {
+        for (let i = 0; i < serverData.length; i++) {
             if (serverData[i] !== " ")
                 mergedData[i] = serverData[i];
             else if (mergedData[i] === " ")
@@ -33,7 +35,7 @@ const Grid: React.FC<GridProps> = ({
         return mergedData;
     }
 
-    function getErrors(): Set<number> {
+    function findErrors(): Set<number> {
         const result = new Set<number>();
 
         const mergedData = getCompleteMergedDataOrNull();
@@ -97,7 +99,9 @@ const Grid: React.FC<GridProps> = ({
         return result;
     }
 
-    const errors = getErrors();
+    useEffect(() => {
+        setErrors(findErrors());
+    }, [serverData]);
 
     function getError(pos: number) {
         return errors.has(pos);
