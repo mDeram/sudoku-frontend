@@ -1,5 +1,5 @@
 # sudoku-frontend
-Multiplayer sudoku build with ReactJs and SocketIo.
+Multiplayer sudoku build with ReactJs and Socket.io.
 
 [Backend](https://github.com/mDeram/sudoku-backend)
 
