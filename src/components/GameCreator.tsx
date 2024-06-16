@@ -54,7 +54,7 @@ const GameCreator: React.FC<GameCreatorProps> = ({
         <section className="gameCreator">
             {isConnectionValid() &&
                 <div className="createGameContainer">
-                    <button className="createGame" onClick={createGame}>create game</button>
+                    <button className="createGame" onClick={createGame}>Create game</button>
                     <Setting
                         difficulties={difficulties}
                         settings={settings}

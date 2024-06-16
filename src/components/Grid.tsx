@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { GameState } from "../App";
 import Cell from "../components/Cell";
@@ -112,7 +112,7 @@ const Grid: React.FC<GridProps> = ({
     }
 
     function getClassName(isSetOnServer: boolean, layoutCell: boolean | undefined = false, error: boolean | undefined = false) {
-        return classNames({
+        return clsx({
             "cell-user": !isSetOnServer,
             "cell-layout": layoutCell,
             "cell-nonLayout": !layoutCell,
@@ -135,7 +135,7 @@ const Grid: React.FC<GridProps> = ({
     }
 
     return (
-        <div className={classNames("sudokuGrid", { "success": gameState === "done" })}>
+        <div className={clsx("sudokuGrid", { "success": gameState === "done" })}>
             {drawCells()}
         </div>
     )
