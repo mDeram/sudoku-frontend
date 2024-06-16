@@ -1,9 +1,8 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useOuterClick from "../hooks/useOuterClick";
 import "../styles/Popup.css";
 
 export interface PopupProps {
-    children?: ReactNode | Function;
     trigger?: JSX.Element | ((open: () => void) => JSX.Element | void);
     closeOnDocumentClick?: boolean;
     hideTriggerOnShow?: boolean;
