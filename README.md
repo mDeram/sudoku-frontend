@@ -1,18 +1,18 @@
 # sudoku-frontend
-Multiplayer sudoku build with ReactJs and Socket.io.
+
+Multiplayer sudoku built with ReactJs and Socket.io.
 
 [Backend](https://github.com/mDeram/sudoku-backend)
 
 ## Running the project in development
 ```sh
-npm run start
+npm run dev
 ```
 
 ## Running the project in production
 ```sh
 npm run build
-# Remove the homepage field in package.json for this to work
-serve -s build/ # Or any other way to serve a static website
+# serve the dist/ folder
 ```
 
 ## Previews
