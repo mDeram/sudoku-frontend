@@ -6,6 +6,12 @@
 
     --color-success: hsl(75, 50%, 40%);
     --color-error: hsl(1, 50%, 52%);
+    --color-success-dark: hsl(75, 50%, 35%);
+    --color-error-dark: hsl(1, 50%, 47%);
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 body {
@@ -39,11 +45,11 @@ section {
 }
 
 .connected {
-    color: var(--color-success);
+    color: var(--color-success-dark);
 }
 
 .disconnected {
-    color: var(--color-error);
+    color: var(--color-error-dark);
 }
 
 .connectionInfo {
