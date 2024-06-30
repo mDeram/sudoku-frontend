@@ -20,7 +20,7 @@ const GameCreator: React.FC<GameCreatorProps> = ({
     const difficulties = ["easy", "medium", "hard", "expert"];
     const [settings, setSettings] = useState<Settings>({
         difficulty: difficulties[0],
-        minimumPlayer: 2
+        minimumPlayer: 1
     });
 
     useEffect(() => {
