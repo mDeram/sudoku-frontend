@@ -6,6 +6,7 @@ import Header from './components/Header';
 import GameCreator from './components/GameCreator';
 import { SEARCH_PARAM } from './constants';
 import getGameLink from './utils/getGameLink';
+import { WaitingForPlayers } from './WaitingForPlayers';
 
 export type GameState = "" | "create" | "init" | "run" | "done";
 export type ConnectionStatus = "connected" | "disconnected";
@@ -74,6 +75,7 @@ const App: React.FC = () => {
                 socket={socket}
             />
             {gameState === "" && error !== "" && <p>An error occured: {error}</p>}
+            {gameState === "create" && <WaitingForPlayers />}
             {socket && <Sudoku socket={socket} gameState={gameState}/>}
         </div>
     );

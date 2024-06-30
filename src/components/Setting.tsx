@@ -33,7 +33,7 @@ const Setting: React.FC<SettingsProps> = ({
             <div className="popupContent">
                 <div className="playerNumber">
                     <div>
-                        <p>Minimum Player</p>
+                        <p>Minimum Players</p>
                     </div>
                     <div className="playerNumberSliderContainer">
                         <p>{settings.minimumPlayer}</p>
